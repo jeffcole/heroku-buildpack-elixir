@@ -1,15 +1,30 @@
 function restore_app() {
+  echo "[debug] *** restore_app"
+
+  echo "[debug] Contents of \${cache_path}"
+  ls -la ${cache_path}
+
+  echo "[debug] \$(deps_backup_path) = $(deps_backup_path)"
   if [ -d $(deps_backup_path) ]; then
+    echo "[debug] \$(deps_backup_path) exists"
     cp -pR $(deps_backup_path) ${build_path}/deps
+  else
+    echo "[debug] \$(deps_backup_path) does not exist"
   fi
+  echo "[debug] Contents of \${build_path}/deps"
+  ls -la ${build_path}/deps
 
   if [ $erlang_changed != true ] && [ $elixir_changed != true ]; then
+    echo "[debug] Erlang and Elixir have not changed"
+    echo "[debug] \$(build_backup_path) = $(build_backup_path)"
     if [ -d $(build_backup_path) ]; then
+      echo "[debug] \$(build_backup_path) exists"
       cp -pR $(build_backup_path) ${build_path}/_build
     fi
   fi
+  echo "[debug] Contents of \${build_path}/_build"
+  ls -la ${build_path}/_build
 }
-
 
 function copy_hex() {
   mkdir -p ${build_path}/.mix/archives
@@ -84,11 +99,30 @@ function app_dependencies() {
 
 
 function backup_app() {
+  echo "[debug] *** backup_app"
+
+  echo "[debug] Contents of $(deps_backup_path)"
+  ls -la $(deps_backup_path)
+  echo "[debug] Contents of $(build_backup_path)/test"
+  ls -la $(build_backup_path)/test
+
+  echo "[debug] Removing \$(deps_backup_path) = $(deps_backup_path)"
+  echo "[debug] Removing \$(build_backup_path) = $(build_backup_path)"
   # Delete the previous backups
   rm -rf $(deps_backup_path) $(build_backup_path)
 
+  echo "[debug] Contents of ${build_path}/deps"
+  ls -la ${build_path}/deps
+  echo "[debug] Contents of ${build_path}/_build/test"
+  ls -la ${build_path}/_build/test
+
   cp -pR ${build_path}/deps $(deps_backup_path)
   cp -pR ${build_path}/_build $(build_backup_path)
+
+  echo "[debug] Contents of $(deps_backup_path)"
+  ls -la $(deps_backup_path)
+  echo "[debug] Contents of $(build_backup_path)/test"
+  ls -la $(build_backup_path)/test
 }
 
 

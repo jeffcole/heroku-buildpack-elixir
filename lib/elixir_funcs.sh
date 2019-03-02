@@ -73,21 +73,51 @@ function clean_elixir_downloads() {
 }
 
 function restore_mix() {
+  echo "[debug] *** restore_mix"
+  echo "[debug] \$(mix_backup_path) = $(mix_backup_path)"
   if [ -d $(mix_backup_path) ]; then
+    echo "[debug] \$(mix_backup_path) exists"
     cp -pR $(mix_backup_path) ${HOME}/.mix
   fi
+  echo "[debug] Contents of ${HOME}/.mix"
+  ls -la ${HOME}/.mix
 
+  echo "[debug] \$(hex_backup_path) = $(hex_backup_path)"
   if [ -d $(hex_backup_path) ]; then
+    echo "[debug] \$(hex_backup_path) exists"
     cp -pR $(hex_backup_path) ${HOME}/.hex
   fi
+  echo "[debug] Contents of ${HOME}/.hex"
+  ls -la ${HOME}/.hex
 }
 
 function backup_mix() {
+  echo "[debug] *** backup_mix"
+
+  echo "[debug] Contents of $(mix_backup_path)"
+  ls -la $(mix_backup_path)
+  echo "[debug] Contents of $(hex_backup_path)"
+  ls -la $(hex_backup_path)
+
   # Delete the previous backups
+  echo "[debug] Removing \$(mix_backup_path) = $(mix_backup_path)"
+  echo "[debug] Removing \$(hex_backup_path) = $(hex_backup_path)"
   rm -rf $(mix_backup_path) $(hex_backup_path)
+
+  echo "[debug] Copying mix and hex"
+
+  echo "[debug] Contents of ${HOME}/.mix"
+  ls -la ${HOME}/.mix
+  echo "[debug] Contents of ${HOME}/.hex"
+  ls -la ${HOME}/.hex
 
   cp -pR ${HOME}/.mix $(mix_backup_path)
   cp -pR ${HOME}/.hex $(hex_backup_path)
+
+  echo "[debug] Contents of $(mix_backup_path)"
+  ls -la $(mix_backup_path)
+  echo "[debug] Contents of $(hex_backup_path)"
+  ls -la $(hex_backup_path)
 }
 
 function install_hex() {

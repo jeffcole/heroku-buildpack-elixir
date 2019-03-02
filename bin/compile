@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "[debug] *** compile"
+
 # If this var is set to true later on,
 # then elixir and rebar will be rebuilt
 erlang_changed=false
@@ -15,6 +17,17 @@ build_path=$(cd $1 && pwd)
 cache_path=$(cd $2 && pwd)
 env_path=$(cd $3 && pwd)
 
+echo "[debug] \$0 = $0"
+echo "[debug] \$1 = $1"
+echo "[debug] \$2 = $2"
+echo "[debug] \$3 = $3"
+
+echo "[debug] build_path = $build_path"
+echo "[debug] cache_path = $cache_path"
+echo "[debug] env_path = $env_path"
+
+echo "[debug] Contents of \${cache_path}"
+ls -la ${cache_path}
 
 source ${build_pack_path}/lib/path_funcs.sh
 source ${build_pack_path}/lib/misc_funcs.sh
